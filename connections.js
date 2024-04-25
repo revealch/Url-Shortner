@@ -1,12 +1,15 @@
 const mongoose=require("mongoose");
 
-async function connectMongoDb(url) {
-    return mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
+const connectDb=async()=>{
+    try {
+        await mongoose.connect(process.env.MONGO_URL);
+        console.log(`Mongodb Connected with ${mongoose.connection.host}`)
+    } 
+    catch(error) {
+        console.log(`Mongodb database error ${error}`)
+    }
 }
 
 module.exports={
-    connectMongoDb,
-};
+    connectDb,
+}
