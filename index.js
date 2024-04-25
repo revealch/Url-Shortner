@@ -1,8 +1,8 @@
 const express=require("express");
 const path=require("path");
-const {connectMongoDb}=require("./connections");
+const {connectDb}=require("./connections");
 const cookieParser = require('cookie-parser');
-
+require("dotenv").config();
 
 const urlRoute=require("./routes/url");
 const staticRoute=require("./routes/staticRoute");
@@ -13,11 +13,12 @@ const {handleRestrictToLoggedinUserOnly,checkAuth}=require("./middlewares/auth")
 const app=express();
 const URL=require("./models/url");
 
-const PORT=8001;
+const PORT=process.env.PORT||8001;
 
 //set connection
-connectMongoDb("mongodb://127.0.0.1:27017/short-url").then(()=>console.log("Mongodb Connected!"));
-
+//connectMongoDb("mongodb://127.0.0.1:27017/short-url").then(()=>console.log("Mongodb Connected!"));
+//const MONGO_URL = "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.6";//
+connectDb();
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
